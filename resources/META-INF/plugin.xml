@@ -1,0 +1,35 @@
+<idea-plugin>
+  <id>org.leo.goanno</id>
+  <name>goanno</name>
+  <version>1.0</version>
+  <vendor email="xuyangze2@qq.com" url="http://www.bytedance.com">Leo</vendor>
+
+  <description><![CDATA[
+      Auto generate func comment for golang.<br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+    ]]>
+  </change-notes>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+
+    <action id="org.leo.goanno.action.GoAnnoAction" class="org.leo.goanno.action.GoAnnoAction"
+            text="Goanno" description="desc">
+      <add-to-group group-id="GenerateGroup" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl meta SLASH"/>
+    </action>
+  </actions>
+
+</idea-plugin>
