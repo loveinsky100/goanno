@@ -31,7 +31,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
 
         // find receiver
         String receiverOrMethod = StringUtils.substringBetween(funcLine, "func", "(");
-        if (StringUtils.isBlank(receiverOrMethod)) {
+        if (null == receiverOrMethod) {
             return Templates.TEMPLATE_DEFAULT;
         }
 

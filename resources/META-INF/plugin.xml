@@ -1,16 +1,32 @@
 <idea-plugin>
   <id>org.leo.goanno</id>
-  <name>goanno</name>
-  <version>1.0</version>
-  <vendor email="xuyangze2@qq.com" url="http://www.bytedance.com">Leo</vendor>
+  <name>Goanno</name>
+  <version>1.0.0</version>
+  <vendor email="xuyangze@gmail.com" url="https://github.com/loveinsky100/goanno/">@Goanno</vendor>
 
   <description><![CDATA[
-      Auto generate func comment for golang.<br>
-    ]]></description>
+      <H1>Auto generate comments for golang<H1>
+      <p>This plugin provides auto generate comments for golang on-the-fly within Intellij/Goland</p>
+      <h4>Like the plugin? Star the <a href="https://github.com/loveinsky100/goanno/">Project</a></h4>
+      <h4>Got an issue? Report to <a href="https://github.com/loveinsky100/goanno/issues">Issue Tracker</a></h4>
+      <h4>How to use?</h4>
+      <h4>1.(control + commend + /) on golang function code</h4>
+      <h4>2.Right click -> Generate -> Goanno</h4>
+      <h4>Feature</h4>
+      <h4>1.Normal function</h4>
+      <h4>2.Interface function</h4>
 
-  <change-notes><![CDATA[
-    ]]>
-  </change-notes>
+      <p>使用此插件可以自动生成函数注释模版</p>
+      <h4>喜欢本插件，点个星星吧！ <a href="https://github.com/loveinsky100/goanno/">github地址</a></h4>
+      <h4>有bug？<a href="https://github.com/loveinsky100/goanno/issues">点击此处提交</a></h4>
+      <h4>如何使用</h4>
+      <h4>1.在函数上方点击快捷键(control + commend + /)</h4>
+      <h4>2.右键 -> Generate -> Goanno</h4>
+
+      <h4>功能</h4>
+      <h4>1.普通函数</h4>
+      <h4>2.接口中的函数</h4>
+    ]]></description>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="173.0"/>
@@ -26,7 +42,7 @@
   <actions>
 
     <action id="org.leo.goanno.action.GoAnnoAction" class="org.leo.goanno.action.GoAnnoAction"
-            text="Goanno" description="desc">
+            text="Goanno" description="Auto generate comments for golang function">
       <add-to-group group-id="GenerateGroup" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl meta SLASH"/>
     </action>
