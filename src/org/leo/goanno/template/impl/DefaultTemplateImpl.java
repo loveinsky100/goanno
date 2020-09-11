@@ -3,6 +3,7 @@ package org.leo.goanno.template.impl;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.template.Template;
 import org.leo.goanno.template.constants.Templates;
+import org.leo.goanno.utils.FuncUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +14,11 @@ public class DefaultTemplateImpl implements Template {
 
     private Map<String, List<String>> params;
     private int left = 0;
+    private int firstLineLeft = 0;
 
-    public DefaultTemplateImpl(int left) {
+    public DefaultTemplateImpl(int left, int firstLineLeft) {
         this.left = left;
+        this.firstLineLeft = firstLineLeft;
     }
 
     @Override
@@ -78,7 +81,9 @@ public class DefaultTemplateImpl implements Template {
             List<String> codes = templateLine2CodesMap.get(templateLine);
             if (null != codes && !codes.isEmpty()) {
                 for (int index = 0; index < codes.size(); index ++) {
-                    if (line != 0) {
+                    if (line == 0) {
+                        codeGenerator.append(blank(firstLineLeft));
+                    } else {
                         codeGenerator.append(blank(left));
                     }
 
@@ -86,7 +91,9 @@ public class DefaultTemplateImpl implements Template {
                     codeGenerator.append("\n");
                 }
             } else if (!containsAnyArgs(templateLine, Templates.COMMENT,  Templates.PARAMS, Templates.RECEIVER, Templates.RETS)) {
-                if (line != 0) {
+                if (line == 0) {
+                    codeGenerator.append(blank(firstLineLeft));
+                } else {
                     codeGenerator.append(blank(left));
                 }
 
@@ -117,16 +124,11 @@ public class DefaultTemplateImpl implements Template {
     }
 
     private String blank(int left) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int index = 0; index < left; index++) {
-            stringBuilder.append(" ");
-        }
-
-        return stringBuilder.toString();
+        return FuncUtils.blank(left);
     }
 
     public static void main(String []args) {
-        Template template = new DefaultTemplateImpl(0);
+        Template template = new DefaultTemplateImpl(0, 0);
         template.addParams(Templates.COMMENT, "");
         template.addParams(Templates.PARAMS, "params1");
         template.addParams(Templates.PARAMS, "params2");

@@ -69,7 +69,8 @@ public class FuncUtils {
         }
 
         String func = funcLine.toString();
-        return "func " + func;
+        int blankLength = firstBlankLength(func);
+        return blank(blankLength) + "func " + func;
     }
 
     public static String betweenString(String value, char left, char right) {
@@ -137,5 +138,34 @@ public class FuncUtils {
         }
 
         return value.substring(0, removeIndex);
+    }
+
+    public static int firstBlankLength(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return 0;
+        }
+
+        char []cs = value.toCharArray();
+        int count = 0;
+        for (char c : cs) {
+            if (c == '\t') {
+                count += 4;
+            } else if (c == ' ') {
+                count += 1;
+            } else {
+                break;
+            }
+        }
+
+        return count;
+    }
+
+    public static String blank(int left) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int index = 0; index < left; index++) {
+            stringBuilder.append(" ");
+        }
+
+        return stringBuilder.toString();
     }
 }

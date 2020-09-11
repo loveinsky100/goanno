@@ -38,15 +38,16 @@ public class GoAnnoAction extends AnAction {
 
         int line = logicalPosition.line;
         // find first func
-
         Document document = editor.getDocument();
         if (null == document) {
             return;
         }
 
-        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(logicalPosition.column));
         String code = document.getText();
         String func = FuncUtils.findFuncLine(code, line);
+
+        int blankLength = FuncUtils.firstBlankLength(func);
+        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)));
         String template = generator.generate(func);
         if (StringUtils.isBlank(template)) {
             return;

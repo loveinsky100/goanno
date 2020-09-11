@@ -26,13 +26,13 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
         String funcLine = code;
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
-            return Templates.TEMPLATE_DEFAULT;
+            return template.load(Templates.TEMPLATE_DEFAULT);
         }
 
         // find receiver
         String receiverOrMethod = StringUtils.substringBetween(funcLine, "func", "(");
         if (null == receiverOrMethod) {
-            return Templates.TEMPLATE_DEFAULT;
+            return template.load(Templates.TEMPLATE_DEFAULT);
         }
 
         boolean hasReceiver = false;
@@ -135,7 +135,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
 
         String comment = template.load(Templates.TEMPLATE);
         if (StringUtils.isBlank(comment)) {
-            comment = Templates.TEMPLATE_DEFAULT;
+            comment = template.load(Templates.TEMPLATE_DEFAULT);
         }
 
         return comment;
