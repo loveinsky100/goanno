@@ -46,4 +46,4 @@ golang style
 
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_func.gif)
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_interface.gif)
-![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_template_setting.gif)
+![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_template_setting.gif)
