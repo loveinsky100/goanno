@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.leo.goanno</id>
   <name>Goanno</name>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <vendor email="xuyangze@gmail.com" url="https://github.com/loveinsky100/goanno/">@Goanno</vendor>
 
   <description><![CDATA[
@@ -15,6 +15,8 @@
       <h4>Feature</h4>
       <h4>1.Normal function</h4>
       <h4>2.Interface function</h4>
+      <h4>3.Customer Comment Template</h4>
+      <h5>Now you can select "Tools - Goanno Setting" edit you custom template</h5>
 
       <p>使用此插件可以自动生成函数注释模版</p>
       <h4>喜欢本插件，点个星星吧！ <a href="https://github.com/loveinsky100/goanno/">github地址</a></h4>
@@ -26,6 +28,8 @@
       <h4>功能</h4>
       <h4>1.普通函数</h4>
       <h4>2.接口中的函数</h4>
+      <h4>3.支持自定义模版</h4>
+      <h5>通过Tools-Goanno Setting编辑模版信息</h5>
     ]]></description>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -45,6 +49,10 @@
             text="Goanno" description="Auto generate comments for golang function">
       <add-to-group group-id="GenerateGroup" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl meta SLASH"/>
+    </action>
+    <action id="org.leo.goanno.action.GoAnnoSettingAction" class="org.leo.goanno.action.GoAnnoSettingAction"
+            text="Goanno Setting">
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
     </action>
   </actions>
 

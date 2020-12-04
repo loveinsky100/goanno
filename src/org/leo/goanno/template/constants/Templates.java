@@ -1,6 +1,9 @@
 package org.leo.goanno.template.constants;
 
 public interface Templates {
+
+    String SETTING_KEY = "ganno.setting.config";
+
     // comment area
     String COMMENT = "${todo}";
 
@@ -19,10 +22,5 @@ public interface Templates {
             " * @receiver ${receiver}\n" +
             " * @param ${params}\n" +
             " * @return ${return_types}\n" +
-            " */";
-
-    // default template code
-    String TEMPLATE_DEFAULT = "/** \n" +
-            " * @Description: \n" +
             " */";
 }

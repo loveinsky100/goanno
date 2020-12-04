@@ -12,8 +12,11 @@ import java.util.List;
 public class DefaultFuncCommentGeneratorImpl implements Generator {
     private Template template;
 
-    public DefaultFuncCommentGeneratorImpl(Template template) {
+    private String commentTemplate;
+
+    public DefaultFuncCommentGeneratorImpl(Template template, String commentTemplate) {
         this.template = template;
+        this.commentTemplate = commentTemplate;
     }
 
     /**
@@ -26,13 +29,15 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
         String funcLine = code;
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
-            return template.load(Templates.TEMPLATE_DEFAULT);
+            template.addParams(Templates.COMMENT, "");
+            return template.load(this.commentTemplate);
         }
 
         // find receiver
         String receiverOrMethod = StringUtils.substringBetween(funcLine, "func", "(");
         if (null == receiverOrMethod) {
-            return template.load(Templates.TEMPLATE_DEFAULT);
+            template.addParams(Templates.COMMENT, "");
+            return template.load(this.commentTemplate);
         }
 
         boolean hasReceiver = false;
@@ -133,11 +138,12 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
             template.addParams(Templates.RETS, ret);
         }
 
-        String comment = template.load(Templates.TEMPLATE);
-        if (StringUtils.isBlank(comment)) {
-            comment = template.load(Templates.TEMPLATE_DEFAULT);
+        String commentTemplate = Templates.TEMPLATE;
+        if (!StringUtils.isEmpty(this.commentTemplate)) {
+            commentTemplate = this.commentTemplate;
         }
 
+        String comment = template.load(commentTemplate);
         return comment;
     }
 

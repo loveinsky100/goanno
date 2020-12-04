@@ -1,5 +1,6 @@
 package org.leo.goanno.action;
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -9,9 +10,13 @@ import com.intellij.openapi.project.Project;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.DefaultFuncCommentGeneratorImpl;
+import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.template.impl.DefaultTemplateImpl;
 import org.leo.goanno.utils.FuncUtils;
 
+/**
+ * generate go comment template
+ */
 public class GoAnnoAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -47,7 +52,14 @@ public class GoAnnoAction extends AnAction {
         String func = FuncUtils.findFuncLine(code, line);
 
         int blankLength = FuncUtils.firstBlankLength(func);
-        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)));
+
+        String commentTemplate = Templates.TEMPLATE;
+        String data = PropertiesComponent.getInstance().getValue(Templates.SETTING_KEY);
+        if (!StringUtils.isBlank(data)) {
+            commentTemplate = data;
+        }
+
+        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
         String template = generator.generate(func);
         if (StringUtils.isBlank(template)) {
             return;
