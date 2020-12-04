@@ -8,10 +8,10 @@ This plugin provides auto generate comments for golang
 
 # How to use
 1.control + commond + /  
-2.Right click -> Generate -> Goanno
-3.Edit comment template
-    1.Select "Tools - Goanno Setting"
-    2.Edit template
+2.Right click -> Generate -> Goanno  
+3.Edit comment template  
++ 1.Select "Tools - Goanno Setting"  
++ 2.Edit template
 
 # Template
 
