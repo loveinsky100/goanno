@@ -23,4 +23,10 @@ public interface Templates {
             " * @param ${params}\n" +
             " * @return ${return_types}\n" +
             " */";
+
+    // current date in "yyyy-MM-dd HH:mm:ss"
+    String DATE = "${date}";
+
+    // current method name
+    String FUNCTION_NAME = "${function_name}";
 }

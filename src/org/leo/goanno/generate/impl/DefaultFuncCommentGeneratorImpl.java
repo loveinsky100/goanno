@@ -1,12 +1,14 @@
 package org.leo.goanno.generate.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.template.Template;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.utils.FuncUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DefaultFuncCommentGeneratorImpl implements Generator {
@@ -47,6 +49,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
 
         String returnLine = null;
         String receiver = null;
+        String functionName = null;
         if (hasReceiver) {
             String receiverInfo = FuncUtils.betweenString(funcLine, '(', ')');
             String []args = receiverInfo.split("\\*");
@@ -61,6 +64,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
                 anchorLine = "()";
             }
 
+            functionName = FuncUtils.betweenString(leftLine, ' ', '(');
             leftLine = funcLine.substring(funcLine.indexOf(anchorLine) + anchorLine.length() + 1);
             returnLine = leftLine;
             funcLine = argsLine;
@@ -74,6 +78,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
             String leftLine = funcLine.substring(funcLine.indexOf(anchorLine) + anchorLine.length() + 1);
             returnLine = leftLine;
             funcLine = argsLine;
+            functionName = StringUtils.trimToEmpty(receiverOrMethod);
         }
 
         String funcInfo = funcLine;
@@ -126,6 +131,8 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
         }
 
         template.addParams(Templates.COMMENT, "");
+        template.addParams(Templates.DATE, DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        template.addParams(Templates.FUNCTION_NAME, functionName);
         if (null != receiver) {
             template.addParams(Templates.RECEIVER, receiver);
         }
