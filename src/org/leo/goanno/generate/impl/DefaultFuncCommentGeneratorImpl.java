@@ -32,8 +32,6 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
             template.addParams(Templates.COMMENT, "");
-            template.addParams(Templates.FUNCTION_NAME, "");
-            template.addParams(Templates.DATE, DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
             return template.load(this.commentTemplate);
         }
 
@@ -41,8 +39,6 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
         String receiverOrMethod = StringUtils.substringBetween(funcLine, "func", "(");
         if (null == receiverOrMethod) {
             template.addParams(Templates.COMMENT, "");
-            template.addParams(Templates.FUNCTION_NAME, "");
-            template.addParams(Templates.DATE, DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
             return template.load(this.commentTemplate);
         }
 

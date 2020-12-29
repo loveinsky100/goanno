@@ -90,7 +90,7 @@ public class DefaultTemplateImpl implements Template {
                     codeGenerator.append(codes.get(index));
                     codeGenerator.append("\n");
                 }
-            } else if (!containsAnyArgs(templateLine, Templates.COMMENT,  Templates.PARAMS, Templates.RECEIVER, Templates.RETS)) {
+            } else if (!containsAnyArgs(templateLine, Templates.COMMENT,  Templates.PARAMS, Templates.RECEIVER, Templates.RETS, Templates.DATE, Templates.FUNCTION_NAME)) {
                 if (line == 0) {
                     codeGenerator.append(blank(firstLineLeft));
                 } else {
