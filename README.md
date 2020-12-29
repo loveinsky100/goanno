@@ -21,6 +21,8 @@ This plugin provides auto generate comments for golang
 | ${receiver} | function receiver |
 | ${params} | function params |
 | ${return_types} | function return |
+| ${function_name} | function name |
+| ${date} | yyyy-MM-dd HH:mm:ss |
 
 Suggest Templates  
 java style(default)
