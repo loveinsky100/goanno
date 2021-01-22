@@ -59,23 +59,22 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
 
             String leftLine = funcLine.substring(funcLine.indexOf(receiverInfo) + receiverInfo.length() + 1);
             String argsLine = FuncUtils.betweenString(leftLine, '(', ')');
-            String anchorLine = argsLine;
-            if (StringUtils.isEmpty(anchorLine)) {
-                anchorLine = "()";
+            String anchorLine = "(" + argsLine + ")";
+
+            if (leftLine.startsWith(" ")) {
+                functionName = FuncUtils.betweenString(leftLine, ' ', '(');
+            } else {
+                functionName = leftLine.substring(0, leftLine.indexOf("("));
             }
 
-            functionName = FuncUtils.betweenString(leftLine, ' ', '(');
-            leftLine = funcLine.substring(funcLine.indexOf(anchorLine) + anchorLine.length() + 1);
+            leftLine = StringUtils.substring(funcLine, funcLine.indexOf(anchorLine) + anchorLine.length());
             returnLine = leftLine;
             funcLine = argsLine;
         } else {
             String argsLine = FuncUtils.betweenString(funcLine, '(', ')');
-            String anchorLine = argsLine;
-            if (StringUtils.isEmpty(anchorLine)) {
-                anchorLine = "()";
-            }
+            String anchorLine = "(" + argsLine + ")";
 
-            String leftLine = funcLine.substring(funcLine.indexOf(anchorLine) + anchorLine.length() + 1);
+            String leftLine = StringUtils.substring(funcLine, funcLine.indexOf(anchorLine) + anchorLine.length());
             returnLine = leftLine;
             funcLine = argsLine;
             functionName = StringUtils.trimToEmpty(receiverOrMethod);
