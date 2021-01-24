@@ -1,16 +1,17 @@
 package org.leo.goanno.test;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.DefaultFuncCommentGeneratorImpl;
 import org.leo.goanno.template.impl.DefaultTemplateImpl;
 import org.leo.goanno.utils.FuncUtils;
 
-import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestCommon {
     static final String TEST_TEMPLATE = "//\n" +
@@ -45,20 +46,13 @@ public class TestCommon {
     }
 
     protected static List<String> readFile(String file) {
-        List<String> lines = null;
-        InputStream in = GenerateTest.class.getClassLoader().getResourceAsStream(file);
-        try {
-            lines = IOUtils.readLines(in, "utf-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
+        if (null == inputStream) {
+            return null;
         }
 
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
         return lines;
     }
 
