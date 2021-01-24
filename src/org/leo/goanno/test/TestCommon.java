@@ -1,6 +1,5 @@
 package org.leo.goanno.test;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
@@ -65,7 +64,7 @@ public class TestCommon {
 
     protected static List<GoFuncInfo> readGoFuncInfoList(String file) {
         List<String> lines = readFile(file);
-        if (CollectionUtils.isEmpty(lines)) {
+        if (null == lines || lines.isEmpty()) {
             return null;
         }
 
