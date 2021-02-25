@@ -2,6 +2,9 @@ package org.leo.goanno.utils;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FuncUtils {
     public static String findFuncLine(String code, int line) {
         String []lines = code.split("\n");
@@ -102,6 +105,10 @@ public class FuncUtils {
     }
 
     public static String removeStartBlank(String value) {
+        if (null == value) {
+            return null;
+        }
+
         char []values = value.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
         boolean isStart = true;
@@ -167,5 +174,26 @@ public class FuncUtils {
         }
 
         return stringBuilder.toString();
+    }
+
+    public static boolean containsAnyArgs(String template, String ...args) {
+        for (String arg : args) {
+            if (template.contains(arg)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static List<String> getContainsAnyArgs(String template, String ...args) {
+        List<String> contains = new ArrayList<>();
+        for (String arg : args) {
+            if (template.contains(arg)) {
+                contains.add(arg);
+            }
+        }
+
+        return contains;
     }
 }

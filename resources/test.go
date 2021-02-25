@@ -1,3 +1,17 @@
+// Template Declare Start
+
+//
+// ${function_name}
+// @Description:${todo}
+// @receiver ${receiver}
+// @param ${params}
+// @return ${return_types}
+//
+
+// Template Declare End
+
+
+// Methods Declare
 
 //
 // Method1

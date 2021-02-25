@@ -1,7 +1,7 @@
 package org.leo.goanno.template.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.leo.goanno.template.Template;
+import org.leo.goanno.template.ParamTemplate;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.utils.FuncUtils;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultTemplateImpl implements Template {
+public class DefaultTemplateImpl implements ParamTemplate {
 
     private Map<String, List<String>> params;
     private int left = 0;
@@ -90,7 +90,7 @@ public class DefaultTemplateImpl implements Template {
                     codeGenerator.append(codes.get(index));
                     codeGenerator.append("\n");
                 }
-            } else if (!containsAnyArgs(templateLine, Templates.COMMENT,  Templates.PARAMS, Templates.RECEIVER, Templates.RETS, Templates.DATE, Templates.FUNCTION_NAME)) {
+            } else if (!FuncUtils.containsAnyArgs(templateLine, Templates.COMMENT,  Templates.PARAMS, Templates.RECEIVER, Templates.RETS, Templates.DATE, Templates.FUNCTION_NAME)) {
                 if (line == 0) {
                     codeGenerator.append(blank(firstLineLeft));
                 } else {
@@ -113,30 +113,7 @@ public class DefaultTemplateImpl implements Template {
         return templateCode;
     }
 
-    private boolean containsAnyArgs(String template, String ...args) {
-        for (String arg : args) {
-            if (template.contains(arg)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private String blank(int left) {
         return FuncUtils.blank(left);
-    }
-
-    public static void main(String []args) {
-        Template template = new DefaultTemplateImpl(0, 0);
-        template.addParams(Templates.COMMENT, "");
-        template.addParams(Templates.PARAMS, "params1");
-        template.addParams(Templates.PARAMS, "params2");
-        template.addParams(Templates.RECEIVER, "receiver");
-        template.addParams(Templates.RETS, "ret1");
-        template.addParams(Templates.RETS, "ret2");
-        template.addParams(Templates.RETS, "ret3");
-
-        System.out.println(template.load(Templates.TEMPLATE));
     }
 }

@@ -10,8 +10,10 @@ import com.intellij.openapi.project.Project;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.DefaultFuncCommentGeneratorImpl;
+import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.template.impl.DefaultTemplateImpl;
+import org.leo.goanno.template.impl.GoMethodTemplateImpl;
 import org.leo.goanno.utils.FuncUtils;
 
 /**
@@ -59,13 +61,19 @@ public class GoAnnoAction extends AnAction {
             commentTemplate = data;
         }
 
-        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
+        Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
         String template = generator.generate(func);
+        if (StringUtils.isBlank(template)) {
+            generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
+            template = generator.generate(func);
+        }
+
         if (StringUtils.isBlank(template)) {
             return;
         }
 
+        String current = template;
         int offset = document.getLineEndOffset(line);
-        WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, template));
+        WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, current));
     }
 }

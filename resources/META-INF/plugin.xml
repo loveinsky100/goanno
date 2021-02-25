@@ -50,6 +50,10 @@
       <add-to-group group-id="GenerateGroup" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl meta SLASH"/>
     </action>
+<!--    <action id="org.leo.goanno.action.GoAnnoKeyMap4Windows" class="org.leo.goanno.action.GoAnnoAction"-->
+<!--            text="Goanno" description="Auto generate comments for golang function">-->
+<!--      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt SLASH"/>-->
+<!--    </action>-->
     <action id="org.leo.goanno.action.GoAnnoSettingAction" class="org.leo.goanno.action.GoAnnoSettingAction"
             text="Goanno Setting">
       <add-to-group group-id="ToolsMenu" anchor="last"/>

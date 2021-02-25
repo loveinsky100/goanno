@@ -14,16 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TestCommon {
-    static final String TEST_TEMPLATE = "//\n" +
-            "// ${function_name}\n" +
-            "// @Description:${todo}\n" +
-            "// @receiver ${receiver}\n" +
-            "// @param ${params}\n" +
-            "// @return ${return_types}\n" +
-            "//";
-
-    static final String TEST_FILE = "test.go";
-
     static class GoFuncInfo {
         // func info
         private String func;
@@ -38,11 +28,14 @@ public class TestCommon {
         }
     }
 
-    protected static void assertGenerateCode(GoFuncInfo goFuncInfo) {
-        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), TEST_TEMPLATE);
+    protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo) {
+        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
         String code = generator.generate(FuncUtils.findFuncLine(goFuncInfo.func, 0));
 
-        assertTrue(code.equals(goFuncInfo.comment), String.format("func: \n%s\ncomment:\n\n%s\n\nexcept:\n\n%s\n\n", goFuncInfo.func, code, goFuncInfo.comment));
+        assertTrue(code.equals(goFuncInfo.comment), String.format(
+                "\n\nfunc:\n----------------------------\n%s----------------------------\n" +
+                "comment:\n----------------------------\n%s\n----------------------------\n" +
+                "except:\n----------------------------\n%s\n----------------------------\n", goFuncInfo.func, code, goFuncInfo.comment));
     }
 
     protected static List<String> readFile(String file) {
@@ -64,10 +57,20 @@ public class TestCommon {
 
         List<GoFuncInfo> goFuncInfoList = new ArrayList<>();
         boolean inComment = true;
+        boolean inTestMethodArea = false;
         StringBuilder commentBuilder = new StringBuilder();
         StringBuilder functionBuilder = new StringBuilder();
         for (String line : lines) {
             if (StringUtils.isEmpty(line)) {
+                continue;
+            }
+
+            if (line.startsWith("// Methods Declare")) {
+                inTestMethodArea = true;
+                continue;
+            }
+
+            if (!inTestMethodArea) {
                 continue;
             }
 
@@ -102,5 +105,40 @@ public class TestCommon {
         }
 
         return goFuncInfoList;
+    }
+
+    protected static String readGoFuncTemplate(String file) {
+        List<String> lines = readFile(file);
+        if (null == lines || lines.isEmpty()) {
+            return null;
+        }
+
+        boolean inTemplateArea = false;
+        StringBuilder templateBuilder = new StringBuilder();
+        for (String line : lines) {
+            if (StringUtils.isEmpty(line)) {
+                continue;
+            }
+
+            if (line.startsWith("// Template Declare Start")) {
+                inTemplateArea = true;
+                continue;
+            }
+
+            if (line.startsWith("// Template Declare End")) {
+                break;
+            }
+
+            if (inTemplateArea) {
+                templateBuilder.append(line).append('\n');
+            }
+        }
+
+        if (templateBuilder.length() == 0) {
+            return templateBuilder.toString();
+        }
+
+        // remove last break line
+        return templateBuilder.substring(0, templateBuilder.length() - 1);
     }
 }

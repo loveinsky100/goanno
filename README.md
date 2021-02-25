@@ -45,6 +45,25 @@ golang style
 //
 ```
 
+# How to build
+```
+Project SDK: IntelliJ IDEA Community Edition IC-202.8194.7
+JDK: 1.8
+IDEA Version: IntelliJ IDEA 2020.2.4 (Community Edition)
+
+Tip: Do not use 2020.3
+```
+
+Test File:
+```
+resource
+    - test.go
+    - test2.go
+src/org/leo/goanno/test
+    - GenerateTest.java
+```
+
+# Preview
 
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_func.gif)
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_interface.gif)
