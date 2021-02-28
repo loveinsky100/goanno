@@ -4,10 +4,10 @@ This plugin provides auto generate comments for golang
 
 # How to install
 1.goland plugins marketplace(search Goanno)  
-2.download release jar(goland install from disk) [goanno.jar](https://github.com/loveinsky100/goanno/releases/tag/1.0.0)
+2.download release jar(goland install from disk) [goanno.jar](https://github.com/loveinsky100/goanno/releases)
 
 # How to use
-1.control + commond + /  
+1.control + commond + /  (for windows: control + alt + /)  
 2.Right click -> Generate -> Goanno  
 3.Edit comment template  
 + 1.Select "Tools - Goanno Setting"  
@@ -18,11 +18,32 @@ This plugin provides auto generate comments for golang
 | Args | Desc |
 | --- | --- |
 | ${todo} | Blank Placeholder |
-| ${receiver} | function receiver |
-| ${params} | function params |
-| ${return_types} | function return |
+| ${receiver} | function receiver name or type |
+| ${params} | function params name or type|
+| ${return_types} | function output name or type |
 | ${function_name} | function name |
 | ${date} | yyyy-MM-dd HH:mm:ss |
+
+## V2.1.0
+| Args | Desc |
+| --- | --- |
+| ${todo} | Blank Placeholder |
+| ${receiver} | function receiver name or type |
+| ${params} | function params name or type|
+| ${return_types} | function output name or type |
+| ${function_name} | function name |
+| ${param_name} | function params name |
+| ${param_type} | function params type |
+| ${param_name_type} | function params name and type |
+| ${receiver_name} | function receiver name |
+| ${receiver_type} | function receiver type |
+| ${receiver_name_type} | function receiver name and type |
+| ${ret} | function output name or type, equals to ${receiver} |
+| ${ret_name} | function output name |
+| ${ret_type} | function output type |
+| ${ret_name_type} | return name and type |
+| ${note} | last comment for param (NOT SUPPORT, dev in next version) |
+
 
 Suggest Templates  
 java style(default)
