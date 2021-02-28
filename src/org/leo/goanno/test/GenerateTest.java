@@ -8,7 +8,7 @@ import java.util.List;
 //
 public class GenerateTest {
     public static void main(String []args) {
-        test("test.go", "test2.go");
+        test("test.go", "test2.go", "test3.go", "test4.go");
     }
 
     private static void test(String ...files) {

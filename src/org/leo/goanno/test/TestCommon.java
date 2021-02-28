@@ -2,8 +2,8 @@ package org.leo.goanno.test;
 
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
-import org.leo.goanno.generate.impl.DefaultFuncCommentGeneratorImpl;
-import org.leo.goanno.template.impl.DefaultTemplateImpl;
+import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
+import org.leo.goanno.template.impl.GoMethodTemplateImpl;
 import org.leo.goanno.utils.FuncUtils;
 
 import java.io.BufferedReader;
@@ -29,7 +29,8 @@ public class TestCommon {
     }
 
     protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo) {
-        Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
+        // Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
+        Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(0, 0), template);
         String code = generator.generate(FuncUtils.findFuncLine(goFuncInfo.func, 0));
 
         assertTrue(code.equals(goFuncInfo.comment), String.format(

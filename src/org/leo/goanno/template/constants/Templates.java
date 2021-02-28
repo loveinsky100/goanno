@@ -1,9 +1,13 @@
 package org.leo.goanno.template.constants;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public interface Templates {
+    // default template code
+    String TEMPLATE = "/** \n" +
+            " * @Description: ${todo}\n" +
+            " * @receiver ${receiver}\n" +
+            " * @param ${params}\n" +
+            " * @return ${return_types}\n" +
+            " */";
 
     String SETTING_KEY = "ganno.setting.config";
 
@@ -18,14 +22,6 @@ public interface Templates {
 
     // golang receiver
     String RECEIVER = "${receiver}";
-
-    // default template code
-    String TEMPLATE = "/** \n" +
-            " * @Description: ${todo}\n" +
-            " * @receiver ${receiver}\n" +
-            " * @param ${params}\n" +
-            " * @return ${return_types}\n" +
-            " */";
 
     // current date in "yyyy-MM-dd HH:mm:ss"
     String DATE = "${date}";
@@ -50,6 +46,9 @@ public interface Templates {
 
     // golang receiver name & type
     String RECEIVER_NAME_TYPE = "${receiver_name_type}";
+
+    // return info
+    String RET = "${ret}";
 
     // return name
     String RET_NAME = "${ret_name}";

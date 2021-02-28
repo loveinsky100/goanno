@@ -1,13 +1,10 @@
 package org.leo.goanno.generate.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.model.GoMethod;
 import org.leo.goanno.model.GoType;
 import org.leo.goanno.template.GoMethodTemplate;
-import org.leo.goanno.template.Template;
-import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.utils.FuncUtils;
 
 import java.util.ArrayList;
@@ -84,37 +81,14 @@ public class FuncCommentGeneratorV2Impl implements Generator {
         }
 
         String funcInfo = funcLine;
-        List<GoType> params = new ArrayList<>();
-        if (!StringUtils.isBlank(funcInfo)) {
-            String []funcArgs = funcInfo.split(",");
-            for (String funcArg : funcArgs) {
-                GoType arg = readGoType(funcArg);
-                if (null == arg) {
-                    continue;
-                }
-
-                params.add(arg);
-            }
-        }
-
+        List<GoType> params = spiltGoTypes(funcInfo);
         method.setInputs(params);
+
         if (returnLine.trim().startsWith("(")) {
             returnLine = FuncUtils.betweenString(returnLine, '(', ')');
         }
 
-        List<GoType> rets = new ArrayList<>();
-        if (!StringUtils.isBlank(returnLine)) {
-            String []returnArgs = returnLine.split(",");
-            for (String retArg : returnArgs) {
-                GoType arg = readGoType(retArg);
-                if (null == arg) {
-                    continue;
-                }
-
-                rets.add(arg);
-            }
-        }
-
+        List<GoType> rets = spiltGoTypes(returnLine);
         method.setOutputs(rets);
         return generateTemplate(method);
     }
@@ -128,6 +102,62 @@ public class FuncCommentGeneratorV2Impl implements Generator {
         return template.load(this.commentTemplate);
     }
 
+    private List<GoType> spiltGoTypes(String code) {
+        List<GoType> types = new ArrayList<>();
+        if (!StringUtils.isBlank(code) ) {
+            char []values = code.toCharArray();
+            List<String> args = new ArrayList<>();
+            StringBuilder current = new StringBuilder();
+            int leftCount = 0;
+            int rightCount = 0;
+            for (int index = 0; index < values.length; index++) {
+                char value = values[index];
+                if (value == '(') {
+                    leftCount ++;
+                }
+
+                if (value == ')') {
+                    rightCount ++;
+                }
+
+                if (leftCount == rightCount && leftCount != 0 && value == ',') {
+                    leftCount = 0;
+                    rightCount = 0;
+                    args.add(current.toString());
+                    current = new StringBuilder();
+                    continue;
+                }
+
+                if (leftCount == 0 && value == ',') {
+                    leftCount = 0;
+                    rightCount = 0;
+
+                    args.add(current.toString());
+                    current = new StringBuilder();
+                    continue;
+                }
+
+                current.append(value);
+            }
+
+            String last = current.toString();
+            if (last.length() > 0) {
+                args.add(last);
+            }
+
+            for (String arg : args) {
+                GoType type = readGoType(arg);
+                if (null == arg) {
+                    continue;
+                }
+
+                types.add(type);
+            }
+        }
+
+        return types;
+    }
+
     /**
      * read go type
      * @param code xxx *Type
@@ -139,15 +169,11 @@ public class FuncCommentGeneratorV2Impl implements Generator {
             return null;
         }
 
-        String []args = null;
-        if (code.contains("\\*")) {
-            args = code.split("\\*");
-        } else {
-            args = code.split(" ");
-        }
-
+        String []args = code.split(" ", 2);
         GoType type = new GoType();
-        if (null != args && args.length >= 2) {
+        if (code.startsWith("func(")) {
+            type.setType(StringUtils.trim(code));
+        } else if (null != args && args.length >= 2) {
             type.setName(StringUtils.trim(args[0]));
             type.setType(StringUtils.trim(args[1]));
         } else {

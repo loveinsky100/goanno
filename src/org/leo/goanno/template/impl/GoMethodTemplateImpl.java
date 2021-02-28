@@ -28,6 +28,7 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             Templates.RECEIVER_NAME,
             Templates.RECEIVER_TYPE,
             Templates.RECEIVER_NAME_TYPE,
+            Templates.RET,
             Templates.RET_NAME,
             Templates.RET_TYPE,
             Templates.RET_NAME_TYPE,
@@ -61,7 +62,46 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             templateLine2CodesMap.put(templateLine, generateMethodArgs(templateLine, containsArgs));
         }
 
-        return "";
+        return generate(templateLines, templateLine2CodesMap);
+    }
+
+    private String generate(String []templateLines, Map<String, List<String>> templateLine2CodesMap) {
+        StringBuilder codeGenerator = new StringBuilder();
+        int line = 0;
+        for (String templateLine : templateLines) {
+            List<String> codes = templateLine2CodesMap.get(templateLine);
+            if (null != codes && !codes.isEmpty()) {
+                for (int index = 0; index < codes.size(); index ++) {
+                    if (line == 0) {
+                        codeGenerator.append(FuncUtils.blank(firstLineLeft));
+                    } else {
+                        codeGenerator.append(FuncUtils.blank(left));
+                    }
+
+                    codeGenerator.append(codes.get(index));
+                    codeGenerator.append("\n");
+                }
+            } else if (!FuncUtils.containsAnyArgs(templateLine, TEMPLATE_DEFINES)) {
+                if (line == 0) {
+                    codeGenerator.append(FuncUtils.blank(firstLineLeft));
+                } else {
+                    codeGenerator.append(FuncUtils.blank(left));
+                }
+
+                codeGenerator.append(templateLine).append("\n");
+            }
+
+            line ++;
+        }
+
+        // remove last break line
+        String templateCode = codeGenerator.toString();
+        if (StringUtils.isBlank(templateCode) || templateCode.length() < 1) {
+            return templateCode;
+        }
+
+        templateCode = templateCode.substring(0, templateCode.length() - 1);
+        return templateCode;
     }
 
     private List<String> generateMethodArgs(String template, List<String> args) {
@@ -71,6 +111,10 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
 
         List<GoType> judgeTypes = judgeGoTypeContext(method, args);
         if (null == judgeTypes || judgeTypes.size() == 0) {
+            if (isGoTypeContext(args)) {
+                return null;
+            }
+
             return generateValueTemplate(template, method, args);
         }
 
@@ -80,10 +124,12 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
     private List<String> generateTypeTemplate(String template, GoMethod method, List<GoType> types, List<String> args) {
         List<String> generates = new ArrayList<>();
         for (GoType type : types) {
+            String code = template;
             for (String arg : args) {
-                template = template.replace(arg, calculateArgValue(type, method, arg));
-                generates.add(template);
+                code = code.replace(arg, calculateArgValue(type, method, arg));
             }
+
+            generates.add(code);
         }
 
         return generates;
@@ -91,11 +137,12 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
 
     private List<String> generateValueTemplate(String template, GoMethod method, List<String> args) {
         List<String> generates = new ArrayList<>();
+        String code = template;
         for (String arg : args) {
-            template = template.replace(arg, calculateArgValue(null, method, arg));
-            generates.add(template);
+            code = code.replace(arg, calculateArgValue(null, method, arg));
         }
 
+        generates.add(code);
         return generates;
     }
 
@@ -114,6 +161,10 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             case Templates.RETS:
             case Templates.RECEIVER:
             case Templates.PARAMS: {
+                if (null == type) {
+                    return "";
+                }
+
                 String value = type.getName();
                 if (StringUtils.isBlank(value)) {
                     value = type.getType();
@@ -124,17 +175,33 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             case Templates.RET_NAME:
             case Templates.RECEIVER_NAME:
             case Templates.PARAM_NAME: {
+                if (null == type) {
+                    return "";
+                }
+
                 return type.getName();
             }
             case Templates.RET_TYPE:
             case Templates.RECEIVER_TYPE:
             case Templates.PARAM_TYPE: {
+                if (null == type) {
+                    return "";
+                }
+
                 return type.getType();
             }
             case Templates.RET_NAME_TYPE:
             case Templates.RECEIVER_NAME_TYPE:
             case Templates.PARAM_NAME_TYPE: {
+                if (null == type) {
+                    return "";
+                }
+
                 if (!StringUtils.isBlank(type.getName())) {
+                    if (StringUtils.isEmpty(type.getType())) {
+                        return type.getName();
+                    }
+
                     return type.getName() + " " + type.getType();
                 }
 
@@ -153,6 +220,10 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             }
 
             if (arg.contains("receiver")) {
+                if (null == method.getReceiver()) {
+                    return null;
+                }
+
                 List<GoType> types = new ArrayList<>();
                 types.add(method.getReceiver());
                 return types;
@@ -166,5 +237,13 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
         return null;
     }
 
+    private boolean isGoTypeContext(List<String> args) {
+        for (String arg : args) {
+            if (arg.contains("ret") || arg.contains("receiver") || arg.contains("param")) {
+                return true;
+            }
+        }
 
+        return false;
+    }
 }
