@@ -42,7 +42,7 @@ This plugin provides auto generate comments for golang
 | ${ret_name} | function output name |
 | ${ret_type} | function output type |
 | ${ret_name_type} | return name and type |
-| ${note} | last comment for param (NOT SUPPORT, dev in next version) |
+| ${note} | previous comments (NOT SUPPORT, dev...) |
 
 
 Suggest Templates  
