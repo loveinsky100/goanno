@@ -105,7 +105,11 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
     }
 
     private List<String> generateMethodArgs(String template, List<String> args) {
-        if (null == this.method || null == args || args.size() == 0) {
+        if (null == args || args.size() == 0) {
+            return null;
+        }
+
+        if (null == this.method && !FuncUtils.containsOnly(template, Templates.COMMENT, TEMPLATE_DEFINES)) {
             return null;
         }
 

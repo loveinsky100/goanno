@@ -186,6 +186,21 @@ public class FuncUtils {
         return false;
     }
 
+    public static boolean containsOnly(String template, String onlyArg, String ...args) {
+        List<String> contains = getContainsAnyArgs(template, args);
+        if (null == contains || contains.size() == 0) {
+            return false;
+        }
+
+        for (String contain : contains) {
+            if (contain != onlyArg) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static List<String> getContainsAnyArgs(String template, String ...args) {
         List<String> contains = new ArrayList<>();
         for (String arg : args) {
