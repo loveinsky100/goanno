@@ -38,7 +38,7 @@ This plugin provides auto generate comments for golang
 | ${receiver_name} | function receiver name |
 | ${receiver_type} | function receiver type |
 | ${receiver_name_type} | function receiver name and type |
-| ${ret} | function output name or type, equals to ${receiver} |
+| ${ret} | function output name or type, equals to ${return_types} |
 | ${ret_name} | function output name |
 | ${ret_type} | function output type |
 | ${ret_name_type} | return name and type |
