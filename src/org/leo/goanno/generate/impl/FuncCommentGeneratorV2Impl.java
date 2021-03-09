@@ -91,6 +91,8 @@ public class FuncCommentGeneratorV2Impl implements Generator {
         }
 
         List<GoType> rets = spiltGoTypes(returnLine);
+        // https://github.com/loveinsky100/goanno/issues/8
+        resolveGoTypes(rets);
         method.setOutputs(rets);
         return generateTemplate(method);
     }

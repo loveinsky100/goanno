@@ -18,9 +18,20 @@
 // @Description:
 // @param val Type
 // @param val2 Type
-// @return error
+// @return err error
 //
-func Method1_4(val, val2 Type) error {
+func Method1_4(val, val2 Type) (err error) {
+}
+
+//
+// Method1_1
+// @Description:
+// @param value int64
+// @return err1 error
+// @return err2 error
+// @return err3 error
+//
+func Method1_1(value int64) (err1, err2, err3 error) {
 }
 
 //
