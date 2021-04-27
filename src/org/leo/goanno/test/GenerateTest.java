@@ -8,7 +8,7 @@ import java.util.List;
 //
 public class GenerateTest {
     public static void main(String []args) {
-        test("test.go", "test2.go", "test3.go", "test4.go");
+        test("test.go", "test2.go", "test3.go", "test4.go", "covert_test1.go");
     }
 
     private static void test(String ...files) {
@@ -21,7 +21,7 @@ public class GenerateTest {
         List<TestCommon.GoFuncInfo> goFuncInfoList = TestCommon.readGoFuncInfoList(file);
         try {
             TestCommon.assertTrue(null != goFuncInfoList && !goFuncInfoList.isEmpty(), "goFuncInfoList is empty for file: " + file);
-            goFuncInfoList.stream().forEach(goFuncInfo -> TestCommon.assertGenerateCode(template, goFuncInfo));
+            goFuncInfoList.stream().forEach(goFuncInfo -> TestCommon.assertGenerateCode(template, goFuncInfo, file.startsWith("covert")));
             System.out.println("test complete for file: " + file);
         } catch (Exception e) {
             System.err.println("test failed for file: " + file);
