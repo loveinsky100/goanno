@@ -42,8 +42,7 @@ This plugin provides auto generate comments for golang
 | ${ret_name} | function output name |
 | ${ret_type} | function output type |
 | ${ret_name_type} | return name and type |
-| ${note} | previous comments (NOT SUPPORT, dev...) |
-
+| ~~${note}~~ | ~~previous comments (NOT SUPPORT, dev...)~~ |
 
 Suggest Templates  
 java style(default)
@@ -65,6 +64,13 @@ golang style
 // @return ${return_types}
 //
 ```
+
+## V2.2.0
+Supports rewrite previous comments / 支持覆盖原有注释
+
+Setting: "Tools - Goanno Setting - Select Checkbox"  
+![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/setting.png)
+![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_cover.gif)
 
 # How to build
 ```
