@@ -11,6 +11,8 @@ public interface Templates {
 
     String SETTING_KEY = "ganno.setting.config";
 
+    String SELECT_KEY = "ganno.setting.config.covert";
+
     // comment area
     String COMMENT = "${todo}";
 

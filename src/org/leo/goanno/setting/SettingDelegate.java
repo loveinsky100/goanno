@@ -8,8 +8,15 @@ public interface SettingDelegate {
     String loadSetting();
 
     /**
-     * update setting
-     * @param setting
+     * query loadSelect
+     * @return
      */
-    void submitSetting(String setting);
+    boolean loadSelect();
+
+    /**
+     * setting
+     * @param setting
+     * @param select
+     */
+    void submitSetting(String setting, boolean select);
 }

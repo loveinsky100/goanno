@@ -19,8 +19,13 @@ public class SettingComponent extends DialogWrapper {
                 }
 
                 @Override
-                public void submitSetting(String setting) {
-                    delegate.submitSetting(setting);
+                public boolean loadSelect() {
+                    return delegate.loadSelect();
+                }
+
+                @Override
+                public void submitSetting(String setting, boolean select) {
+                    delegate.submitSetting(setting, select);
                     thiz.close(0);
                 }
             });
@@ -33,7 +38,7 @@ public class SettingComponent extends DialogWrapper {
 
     @Override
     protected JComponent createNorthPanel() {
-        return null;
+        return settingView.initNorth();
     }
 
     @Override

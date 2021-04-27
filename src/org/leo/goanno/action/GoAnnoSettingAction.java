@@ -24,7 +24,18 @@ public class GoAnnoSettingAction extends AnAction {
             }
 
             @Override
-            public void submitSetting(String setting) {
+            public boolean loadSelect() {
+                String data = PropertiesComponent.getInstance().getValue(Templates.SELECT_KEY);
+                if (StringUtils.isBlank(data)) {
+                    return true;
+                }
+
+                return StringUtils.equals("true", data);
+            }
+
+            @Override
+            public void submitSetting(String setting, boolean select) {
+                PropertiesComponent.getInstance().setValue(Templates.SELECT_KEY, select ? "true" : "false");
                 if (StringUtils.isBlank(setting)) {
                     return;
                 }
