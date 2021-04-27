@@ -63,11 +63,6 @@ public class GoAnnoAction extends AnAction {
 
         Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
         String template = generator.generate(func);
-//        if (StringUtils.isBlank(template)) {
-//            generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
-//            template = generator.generate(func);
-//        }
-
         if (StringUtils.isBlank(template)) {
             return;
         }
@@ -79,7 +74,6 @@ public class GoAnnoAction extends AnAction {
 
             int start = editor.getSelectionModel().getSelectionStart();
             int end = editor.getSelectionModel().getSelectionEnd();
-            int commentLines = comments.size();
 
             String current = template;
             WriteCommandAction.runWriteCommandAction(project, () -> {
@@ -92,7 +86,5 @@ public class GoAnnoAction extends AnAction {
             int offset = document.getLineEndOffset(line);
             WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, current));
         }
-
-
     }
 }

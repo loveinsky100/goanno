@@ -21,10 +21,8 @@ public class CommentUtils {
                 continue;
             }
 
-            if (lineCodeInfo.startsWith("func")) {
-                commentFuncLine = index;
-                break;
-            }
+            commentFuncLine = index;
+            break;
         }
 
         List<String > comments = new ArrayList<>();
