@@ -98,5 +98,5 @@ DoService2() error
 // @return func (int32, int64) error
 //
 // start_interface_method
-DoService3() (Type, a func (int32, int64) error)
+DoService3() (t Type, a func (int32, int64) error)
 // end_interface_method

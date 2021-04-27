@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
 import org.leo.goanno.template.impl.GoMethodTemplateImpl;
+import org.leo.goanno.utils.CommentUtils;
 import org.leo.goanno.utils.FuncUtils;
 
 import java.io.BufferedReader;
@@ -28,10 +29,19 @@ public class TestCommon {
         }
     }
 
-    protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo) {
+    protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo, boolean covert) {
         // Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
         Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(0, 0), template);
         String code = generator.generate(FuncUtils.findFuncLine(goFuncInfo.func, 0));
+        if (covert) {
+            String []comments = StringUtils.split(goFuncInfo.comment, "\n");
+            List<String> commentList = new ArrayList<>();
+            for (String comment : comments) {
+                commentList.add(comment);
+            }
+
+            code = CommentUtils.mergeComment(code, commentList);
+        }
 
         assertTrue(code.equals(goFuncInfo.comment), String.format(
                 "\n\nfunc:\n----------------------------\n%s----------------------------\n" +

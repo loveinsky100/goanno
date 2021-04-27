@@ -144,6 +144,11 @@ public class FuncUtils {
             break;
         }
 
+        // fix: https://github.com/loveinsky100/goanno/issues/10
+        if (-1 == removeIndex) {
+            return value;
+        }
+
         return value.substring(0, removeIndex);
     }
 

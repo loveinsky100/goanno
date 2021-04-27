@@ -12,7 +12,10 @@ import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.template.impl.GoMethodTemplateImpl;
+import org.leo.goanno.utils.CommentUtils;
 import org.leo.goanno.utils.FuncUtils;
+
+import java.util.List;
 
 /**
  * generate go comment template
@@ -50,7 +53,6 @@ public class GoAnnoAction extends AnAction {
 
         String code = document.getText();
         String func = FuncUtils.findFuncLine(code, line);
-
         int blankLength = FuncUtils.firstBlankLength(func);
 
         String commentTemplate = Templates.TEMPLATE;
@@ -61,17 +63,28 @@ public class GoAnnoAction extends AnAction {
 
         Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
         String template = generator.generate(func);
-//        if (StringUtils.isBlank(template)) {
-//            generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
-//            template = generator.generate(func);
-//        }
-
         if (StringUtils.isBlank(template)) {
             return;
         }
 
-        String current = template;
-        int offset = document.getLineEndOffset(line);
-        WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, current));
+        String select = PropertiesComponent.getInstance().getValue(Templates.SELECT_KEY);
+        if (StringUtils.isEmpty(select) || StringUtils.equals("true", select)) {
+            List<String> comments = CommentUtils.findComment(code, line);
+            template = CommentUtils.mergeComment(template, comments);
+
+            int start = editor.getSelectionModel().getSelectionStart();
+            int end = editor.getSelectionModel().getSelectionEnd();
+
+            String current = template;
+            WriteCommandAction.runWriteCommandAction(project, () -> {
+                document.insertString(end, current);
+                document.deleteString(start, end);
+            });
+
+        } else {
+            String current = template;
+            int offset = document.getLineEndOffset(line);
+            WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, current));
+        }
     }
 }

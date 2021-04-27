@@ -82,6 +82,8 @@ public class FuncCommentGeneratorV2Impl implements Generator {
 
         String funcInfo = funcLine;
         List<GoType> params = spiltGoTypes(funcInfo);
+        // https://github.com/loveinsky100/goanno/issues/8
+        resolveGoTypes(params);
         method.setInputs(params);
 
         if (returnLine.trim().startsWith("(")) {
@@ -89,6 +91,8 @@ public class FuncCommentGeneratorV2Impl implements Generator {
         }
 
         List<GoType> rets = spiltGoTypes(returnLine);
+        // https://github.com/loveinsky100/goanno/issues/8
+        resolveGoTypes(rets);
         method.setOutputs(rets);
         return generateTemplate(method);
     }
@@ -156,6 +160,33 @@ public class FuncCommentGeneratorV2Impl implements Generator {
         }
 
         return types;
+    }
+
+    /**
+     * fix "func method(a, b string)" a and b is string type
+     * @param types
+     */
+    private void resolveGoTypes(List<GoType> types) {
+        if (null == types || types.isEmpty() || types.size() < 2) {
+            return;
+        }
+
+        List<GoType> unRecognizedGoTypes = new ArrayList<>();
+        for (GoType goType : types) {
+            if (StringUtils.isEmpty(goType.getName())) {
+                unRecognizedGoTypes.add(goType);
+                continue;
+            }
+
+            if (unRecognizedGoTypes.size() > 0) {
+                for (GoType unRecognizedGoType : unRecognizedGoTypes) {
+                    unRecognizedGoType.setName(unRecognizedGoType.getType());
+                    unRecognizedGoType.setType(goType.getType());
+                }
+
+                unRecognizedGoTypes = new ArrayList<>();
+            }
+        }
     }
 
     /**

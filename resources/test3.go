@@ -14,6 +14,27 @@
 // Methods Declare
 
 //
+// Method1_4
+// @Description:
+// @param val Type
+// @param val2 Type
+// @return err error
+//
+func Method1_4(val, val2 Type) (err error) {
+}
+
+//
+// Method1_1
+// @Description:
+// @param value int64
+// @return err1 error
+// @return err2 error
+// @return err3 error
+//
+func Method1_1(value int64) (err1, err2, err3 error) {
+}
+
+//
 // Method1
 // @Description:
 //
@@ -75,6 +96,16 @@ func Method1_4(val Type, handler func(int64) error, handler2 func(int64, int32) 
 }
 
 //
+// Method1_4
+// @Description:
+// @param val Type
+// @param val2 Type
+// @return error
+//
+func Method1_4(val, val2 Type) error {
+}
+
+//
 // DoService1
 // @Description:
 //
@@ -94,9 +125,9 @@ DoService2() error
 //
 // DoService3
 // @Description:
-// @return Type
+// @return t Type
 // @return a func (int32, int64) error
 //
 // start_interface_method
-DoService3() (Type, a func (int32, int64) error)
+DoService3() (t Type, a func (int32, int64) error)
 // end_interface_method
