@@ -69,7 +69,6 @@ golang style
 Supports rewrite previous comments / 支持覆盖原有注释
 
 Setting: "Tools - Goanno Setting - Select Checkbox"  
-![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/setting.png)
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_cover.gif)
 
 # How to build
