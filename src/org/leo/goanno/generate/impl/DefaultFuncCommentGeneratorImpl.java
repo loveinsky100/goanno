@@ -3,6 +3,7 @@ package org.leo.goanno.generate.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.leo.goanno.generate.Generator;
+import org.leo.goanno.model.GenerateInfo;
 import org.leo.goanno.template.ParamTemplate;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.utils.FuncUtils;
@@ -23,11 +24,12 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
 
     /**
      * do something
-     * @param code
+     * @param generateInfo
      * @return
      */
     @Override
-    public String generate(String code) {
+    public String generate(GenerateInfo generateInfo) {
+        String code = generateInfo.getCode();
         String funcLine = code;
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {

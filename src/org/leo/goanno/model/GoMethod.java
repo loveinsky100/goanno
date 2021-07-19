@@ -10,6 +10,11 @@ public class GoMethod {
     private boolean interfaze;
 
     /**
+     * inteface name
+     */
+    private String interfazeName;
+
+    /**
      * method args
      */
     private List<GoType> inputs;
@@ -45,6 +50,14 @@ public class GoMethod {
 
     public void setInterfaze(boolean interfaze) {
         this.interfaze = interfaze;
+    }
+
+    public String getInterfazeName() {
+        return interfazeName;
+    }
+
+    public void setInterfazeName(String interfazeName) {
+        this.interfazeName = interfazeName;
     }
 
     public List<GoType> getInputs() {

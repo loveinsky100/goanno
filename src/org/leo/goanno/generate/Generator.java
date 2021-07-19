@@ -1,12 +1,12 @@
 package org.leo.goanno.generate;
 
-import org.leo.goanno.template.Template;
+import org.leo.goanno.model.GenerateInfo;
 
 public interface Generator {
     /**
      * generate func comment
-     * @param code
+     * @param generateInfo
      * @return
      */
-    String generate(String code);
+    String generate(GenerateInfo generateInfo);
 }

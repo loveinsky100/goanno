@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project;
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
+import org.leo.goanno.model.GenerateInfo;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.template.impl.GoMethodTemplateImpl;
 import org.leo.goanno.utils.CommentUtils;
@@ -52,8 +53,8 @@ public class GoAnnoAction extends AnAction {
         }
 
         String code = document.getText();
-        String func = FuncUtils.findFuncLine(code, line);
-        int blankLength = FuncUtils.firstBlankLength(func);
+        GenerateInfo generateInfo = FuncUtils.findGenerateInfo(code, line);
+        int blankLength = FuncUtils.firstBlankLength(generateInfo.getCode());
 
         String commentTemplate = Templates.TEMPLATE;
         String data = PropertiesComponent.getInstance().getValue(Templates.SETTING_KEY);
@@ -62,7 +63,7 @@ public class GoAnnoAction extends AnAction {
         }
 
         Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
-        String template = generator.generate(func);
+        String template = generator.generate(generateInfo);
         if (StringUtils.isBlank(template)) {
             return;
         }

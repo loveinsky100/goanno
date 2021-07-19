@@ -63,4 +63,7 @@ public interface Templates {
 
     // note info
     String NOTE = "${note}";
+
+    // name of interface
+    String INTERFACE_NAME = "${interface_name}";
 }

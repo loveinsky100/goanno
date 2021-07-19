@@ -2,6 +2,7 @@ package org.leo.goanno.generate.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.leo.goanno.generate.Generator;
+import org.leo.goanno.model.GenerateInfo;
 import org.leo.goanno.model.GoMethod;
 import org.leo.goanno.model.GoType;
 import org.leo.goanno.template.GoMethodTemplate;
@@ -23,15 +24,18 @@ public class FuncCommentGeneratorV2Impl implements Generator {
 
     /**
      * do something
-     * @param code
+     * @param generateInfo
      * @return
      */
     @Override
-    public String generate(String code) {
+    public String generate(GenerateInfo generateInfo) {
         GoMethod method = new GoMethod();
         method.setGenerateDate(new Date());
+        if (null != generateInfo.getInterfazeName() && generateInfo.getInterfazeName().length() > 0) {
+            method.setInterfazeName(generateInfo.getInterfazeName());
+        }
 
-        String funcLine = code;
+        String funcLine = generateInfo.getCode();
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
             return template.load(this.commentTemplate);

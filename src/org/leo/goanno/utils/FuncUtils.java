@@ -1,12 +1,13 @@
 package org.leo.goanno.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.leo.goanno.model.GenerateInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FuncUtils {
-    public static String findFuncLine(String code, int line) {
+    public static GenerateInfo findGenerateInfo(String code, int line) {
         String []lines = code.split("\n");
         StringBuilder funcLine = new StringBuilder();
         boolean findFirst = false;
@@ -44,13 +45,22 @@ public class FuncUtils {
             break;
         }
 
+        GenerateInfo generateInfo = new GenerateInfo();
+
         String func = funcLine.toString();
         func = removeLast(func, '{');
         if (StringUtils.isEmpty(func)) {
-            return findInterfaceFuncLine(code, line);
+            String interfaceFunc = findInterfaceFuncLine(code, line);
+            generateInfo.setCode(interfaceFunc);
+            if (null != interfaceFunc && interfaceFunc.length() > 0) {
+                String interfaceName = findInterfaceName(code, line);
+                generateInfo.setInterfazeName(interfaceName);
+            }
+        } else {
+            generateInfo.setCode(func);
         }
 
-        return func;
+        return generateInfo;
     }
 
     public static String findInterfaceFuncLine(String code, int line) {
@@ -74,6 +84,44 @@ public class FuncUtils {
         String func = funcLine.toString();
         int blankLength = firstBlankLength(func);
         return blank(blankLength) + "func " + func;
+    }
+
+    public static String findInterfaceName(String code, int line) {
+        String []lines = code.split("\n");
+        String interfaceLine = null;
+        for (int index = line; index >= 0; index --) {
+            String lineCode = lines[index];
+            if (StringUtils.isBlank(lineCode)) {
+                continue;
+            }
+
+            String lineCodeAll = lineCode.replaceAll(" ", "");
+            if (lineCodeAll.equals("}")) {
+                break;
+            }
+
+            String lineCodeInfo = lineCode.replaceAll(" ", "");
+            if (lineCodeInfo.startsWith("type") && (lineCodeInfo.endsWith("interface{") || lineCodeInfo.endsWith("interface"))) {
+                // find interface define
+                interfaceLine = lineCode;
+                break;
+            }
+        }
+
+        if (null == interfaceLine || interfaceLine.length() == 0) {
+            return null;
+        }
+
+        String lineCodeInfo = interfaceLine.replaceAll(" ", "");
+        lineCodeInfo = lineCodeInfo.replaceFirst("type", "");
+        if (lineCodeInfo.endsWith("interface{")) {
+            lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface{".length());
+        } else if (lineCodeInfo.endsWith("interface")) {
+            lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface".length());
+        }
+
+        String interfaceName = lineCodeInfo;
+        return interfaceName;
     }
 
     public static String betweenString(String value, char left, char right) {

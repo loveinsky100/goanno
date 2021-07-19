@@ -25,6 +25,7 @@ public class SettingView {
 
         settingTestArea = new TextArea();
         settingTestArea.setBounds(0, 0, 400, 500);
+        settingTestArea.setBackground(Color.BLACK);
         if (null != this.delegate) {
             settingTestArea.setText(this.delegate.loadSetting());
         }

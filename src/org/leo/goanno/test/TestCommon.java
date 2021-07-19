@@ -32,7 +32,7 @@ public class TestCommon {
     protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo, boolean covert) {
         // Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
         Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(0, 0), template);
-        String code = generator.generate(FuncUtils.findFuncLine(goFuncInfo.func, 0));
+        String code = generator.generate(FuncUtils.findGenerateInfo(goFuncInfo.func, 0));
         if (covert) {
             String []comments = StringUtils.split(goFuncInfo.comment, "\n");
             List<String> commentList = new ArrayList<>();
