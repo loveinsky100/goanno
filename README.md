@@ -44,6 +44,17 @@ This plugin provides auto generate comments for golang
 | ${ret_name_type} | return name and type |
 | ~~${note}~~ | ~~previous comments (NOT SUPPORT, dev...)~~ |
 
+## V3.0.0
+New Config Support
+![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_v3_setting.png)
+
+| Args | Desc |
+| --- | --- |
+| ${interface_name} | Name of Interface |
+| ${struct_name} | Name of Struct |
+| ${struct_field_name} | Name of Struct Field |
+| ${package_name} | Name of Package |
+
 Suggest Templates  
 java style(default)
 ```
