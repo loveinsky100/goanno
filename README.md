@@ -46,6 +46,7 @@ This plugin provides auto generate comments for golang
 
 ## V3.0.0
 New Config Support
+
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_v3_setting.png)
 
 | Args | Desc |
@@ -54,6 +55,7 @@ New Config Support
 | ${struct_name} | Name of Struct |
 | ${struct_field_name} | Name of Struct Field |
 | ${package_name} | Name of Package |
+
 
 Suggest Templates  
 java style(default)
