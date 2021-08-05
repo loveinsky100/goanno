@@ -47,7 +47,7 @@ This plugin provides auto generate comments for golang
 ## V3.0.0
 New Config Support
 
-![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_v3_setting.png)
+![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_v3_setting.png)
 
 | Args | Desc |
 | --- | --- |
@@ -82,7 +82,7 @@ golang style
 Supports rewrite previous comments / 支持覆盖原有注释
 
 Setting: "Tools - Goanno Setting - Select Checkbox"  
-![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_cover.gif)
+![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_cover.gif)
 
 # How to build
 ```
@@ -106,4 +106,4 @@ src/org/leo/goanno/test
 
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_func.gif)
 ![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_interface.gif)
-![](https://raw.githubusercontent.com/loveinsky100/goanno/dev/preview/goanno_template_setting.gif)
+![](https://raw.githubusercontent.com/loveinsky100/goanno/master/preview/goanno_template_setting.gif)
