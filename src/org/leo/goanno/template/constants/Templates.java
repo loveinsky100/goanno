@@ -1,18 +1,6 @@
 package org.leo.goanno.template.constants;
 
 public interface Templates {
-    // default template code
-    String TEMPLATE = "/** \n" +
-            " * @Description: ${todo}\n" +
-            " * @receiver ${receiver}\n" +
-            " * @param ${params}\n" +
-            " * @return ${return_types}\n" +
-            " */";
-
-    String SETTING_KEY = "ganno.setting.config";
-
-    String SELECT_KEY = "ganno.setting.config.covert";
-
     // comment area
     String COMMENT = "${todo}";
 
@@ -66,4 +54,13 @@ public interface Templates {
 
     // name of interface
     String INTERFACE_NAME = "${interface_name}";
+
+    // name of package
+    String PACKAGE_NAME = "${package_name}";
+
+    // name of struct
+    String STRUCT_NAME = "${struct_name}";
+
+    // name of struct field
+    String STRUCT_FIELD_NAME = "${struct_field_name}";
 }

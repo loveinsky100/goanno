@@ -40,6 +40,11 @@ public class GoMethod {
     private String document;
 
     /**
+     * package name
+     */
+    private String packageName;
+
+    /**
      * current date
      */
     private Date generateDate;
@@ -106,5 +111,13 @@ public class GoMethod {
 
     public void setGenerateDate(Date generateDate) {
         this.generateDate = generateDate;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 }

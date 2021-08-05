@@ -8,11 +8,9 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.project.Project;
 import org.apache.commons.lang.StringUtils;
-import org.leo.goanno.generate.Generator;
-import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
+import org.leo.goanno.utils.GeneratorUtils;
 import org.leo.goanno.model.GenerateInfo;
-import org.leo.goanno.template.constants.Templates;
-import org.leo.goanno.template.impl.GoMethodTemplateImpl;
+import org.leo.goanno.setting.SettingConstants;
 import org.leo.goanno.utils.CommentUtils;
 import org.leo.goanno.utils.FuncUtils;
 
@@ -54,21 +52,14 @@ public class GoAnnoAction extends AnAction {
 
         String code = document.getText();
         GenerateInfo generateInfo = FuncUtils.findGenerateInfo(code, line);
-        int blankLength = FuncUtils.firstBlankLength(generateInfo.getCode());
+        int blankLength = FuncUtils.firstBlankLength(generateInfo.getFunc());
 
-        String commentTemplate = Templates.TEMPLATE;
-        String data = PropertiesComponent.getInstance().getValue(Templates.SETTING_KEY);
-        if (!StringUtils.isBlank(data)) {
-            commentTemplate = data;
-        }
-
-        Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(blankLength, Math.max(0, blankLength - logicalPosition.column)), commentTemplate);
-        String template = generator.generate(generateInfo);
+        String template = GeneratorUtils.generate(generateInfo, blankLength, Math.max(0, blankLength - logicalPosition.column));
         if (StringUtils.isBlank(template)) {
             return;
         }
 
-        String select = PropertiesComponent.getInstance().getValue(Templates.SELECT_KEY);
+        String select = PropertiesComponent.getInstance().getValue(SettingConstants.SELECT_KEY);
         if (StringUtils.isEmpty(select) || StringUtils.equals("true", select)) {
             List<String> comments = CommentUtils.findComment(code, line);
             template = CommentUtils.mergeComment(template, comments);

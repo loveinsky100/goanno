@@ -1,6 +1,7 @@
 package org.leo.goanno.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.leo.goanno.model.GenerateEnums;
 import org.leo.goanno.model.GenerateInfo;
 
 import java.util.ArrayList;
@@ -40,24 +41,81 @@ public class FuncUtils {
                 }
 
                 continue;
+            } else if (lineCodeInfo.startsWith("package")) {
+                // package
+                lineCodeInfo = lineCodeInfo.replace("package", "");
+                lineCodeInfo = lineCodeInfo.replaceAll(" ", "");
+                GenerateInfo generateInfo = new GenerateInfo();
+                generateInfo.setGenerateEnums(GenerateEnums.PACKAGE);
+                generateInfo.setPackageName(lineCodeInfo);
+
+                return generateInfo;
+            } else if (lineCodeInfo.startsWith("type")) {
+                // interface or struct or typedef
+                lineCodeInfo = lineCodeInfo.replace("type", "");
+                lineCodeInfo = lineCodeInfo.replaceAll(" ", "");
+
+                if (lineCodeInfo.endsWith("interface{")) {
+                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface{".length());
+                    GenerateInfo generateInfo = new GenerateInfo();
+                    generateInfo.setGenerateEnums(GenerateEnums.INTERFACE);
+                    generateInfo.setPackageName(lineCodeInfo);
+
+                    return generateInfo;
+                } else if (lineCodeInfo.endsWith("struct{")) {
+                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "struct{".length());
+                    GenerateInfo generateInfo = new GenerateInfo();
+                    generateInfo.setGenerateEnums(GenerateEnums.STRUCT);
+                    generateInfo.setPackageName(lineCodeInfo);
+
+                    return generateInfo;
+                }
             }
 
             break;
         }
 
         GenerateInfo generateInfo = new GenerateInfo();
+        generateInfo.setGenerateEnums(GenerateEnums.NONE);
 
         String func = funcLine.toString();
         func = removeLast(func, '{');
         if (StringUtils.isEmpty(func)) {
             String interfaceFunc = findInterfaceFuncLine(code, line);
-            generateInfo.setCode(interfaceFunc);
             if (null != interfaceFunc && interfaceFunc.length() > 0) {
+                generateInfo.setFunc(interfaceFunc);
+
                 String interfaceName = findInterfaceName(code, line);
-                generateInfo.setInterfazeName(interfaceName);
+                if (!StringUtils.isEmpty(interfaceName)) {
+                    generateInfo.setInterfaceName(interfaceName);
+                    generateInfo.setGenerateEnums(GenerateEnums.INTERFACE_METHOD);
+
+                    return generateInfo;
+                }
+
+                String structName = findStructName(code, line);
+                if (!StringUtils.isEmpty(structName)) {
+                    generateInfo.setStructName(structName);
+                    generateInfo.setGenerateEnums(GenerateEnums.STRUCT_FIELD);
+
+                    interfaceFunc = interfaceFunc.replaceFirst("func", "");
+                    // remove last type info
+                    interfaceFunc = interfaceFunc.trim();
+
+                    String[] interfaceFuncs = interfaceFunc.split(" ");
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int index = 0; index < interfaceFuncs.length - 1; index ++) {
+                        stringBuilder.append(interfaceFuncs[index]).append(" ");
+                    }
+
+                    generateInfo.setStructFieldName(stringBuilder.toString().trim());
+
+                    return generateInfo;
+                }
             }
         } else {
-            generateInfo.setCode(func);
+            generateInfo.setGenerateEnums(GenerateEnums.NORMAL_METHOD);
+            generateInfo.setFunc(func);
         }
 
         return generateInfo;
@@ -118,6 +176,44 @@ public class FuncUtils {
             lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface{".length());
         } else if (lineCodeInfo.endsWith("interface")) {
             lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface".length());
+        }
+
+        String interfaceName = lineCodeInfo;
+        return interfaceName;
+    }
+
+    public static String findStructName(String code, int line) {
+        String []lines = code.split("\n");
+        String interfaceLine = null;
+        for (int index = line; index >= 0; index --) {
+            String lineCode = lines[index];
+            if (StringUtils.isBlank(lineCode)) {
+                continue;
+            }
+
+            String lineCodeAll = lineCode.replaceAll(" ", "");
+            if (lineCodeAll.equals("}")) {
+                break;
+            }
+
+            String lineCodeInfo = lineCode.replaceAll(" ", "");
+            if (lineCodeInfo.startsWith("type") && (lineCodeInfo.endsWith("struct{") || lineCodeInfo.endsWith("struct"))) {
+                // find interface define
+                interfaceLine = lineCode;
+                break;
+            }
+        }
+
+        if (null == interfaceLine || interfaceLine.length() == 0) {
+            return null;
+        }
+
+        String lineCodeInfo = interfaceLine.replaceAll(" ", "");
+        lineCodeInfo = lineCodeInfo.replaceFirst("type", "");
+        if (lineCodeInfo.endsWith("struct{")) {
+            lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "struct{".length());
+        } else if (lineCodeInfo.endsWith("struct")) {
+            lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "struct".length());
         }
 
         String interfaceName = lineCodeInfo;

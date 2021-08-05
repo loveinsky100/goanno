@@ -33,7 +33,8 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             Templates.RET_TYPE,
             Templates.RET_NAME_TYPE,
             Templates.NOTE,
-            Templates.INTERFACE_NAME
+            Templates.INTERFACE_NAME,
+            Templates.PACKAGE_NAME
     };
 
     public GoMethodTemplateImpl(int left, int firstLineLeft) {
@@ -215,6 +216,9 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             case Templates.INTERFACE_NAME:
                 String interfazeName = method.getInterfazeName();
                 return interfazeName == null ? "" : interfazeName;
+            case Templates.PACKAGE_NAME:
+                String packageName = method.getPackageName();
+                return packageName == null ? "" : packageName;
             default:{
                 return "__Not Support__";
             }

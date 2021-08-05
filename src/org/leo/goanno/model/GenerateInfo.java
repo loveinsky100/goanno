@@ -1,29 +1,38 @@
 package org.leo.goanno.model;
 
 public class GenerateInfo {
-    // code(func / member)
-    private String code;
+    // generateEnums
+    private GenerateEnums generateEnums;
 
     // interface name
-    private String interfazeName;
+    private String interfaceName;
 
     // struct name
     private String structName;
 
-    public String getCode() {
-        return code;
+    // struct field name
+    private String structFieldName;
+
+    // package name
+    private String packageName;
+
+    // func
+    private String func;
+
+    public GenerateEnums getGenerateEnums() {
+        return generateEnums;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setGenerateEnums(GenerateEnums generateEnums) {
+        this.generateEnums = generateEnums;
     }
 
-    public String getInterfazeName() {
-        return interfazeName;
+    public String getInterfaceName() {
+        return interfaceName;
     }
 
-    public void setInterfazeName(String interfazeName) {
-        this.interfazeName = interfazeName;
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
     }
 
     public String getStructName() {
@@ -32,6 +41,30 @@ public class GenerateInfo {
 
     public void setStructName(String structName) {
         this.structName = structName;
+    }
+
+    public String getStructFieldName() {
+        return structFieldName;
+    }
+
+    public void setStructFieldName(String structFieldName) {
+        this.structFieldName = structFieldName;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getFunc() {
+        return func;
+    }
+
+    public void setFunc(String func) {
+        this.func = func;
     }
 }
 

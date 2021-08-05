@@ -31,11 +31,11 @@ public class FuncCommentGeneratorV2Impl implements Generator {
     public String generate(GenerateInfo generateInfo) {
         GoMethod method = new GoMethod();
         method.setGenerateDate(new Date());
-        if (null != generateInfo.getInterfazeName() && generateInfo.getInterfazeName().length() > 0) {
-            method.setInterfazeName(generateInfo.getInterfazeName());
+        if (null != generateInfo.getInterfaceName() && generateInfo.getInterfaceName().length() > 0) {
+            method.setInterfazeName(generateInfo.getInterfaceName());
         }
 
-        String funcLine = generateInfo.getCode();
+        String funcLine = generateInfo.getFunc();
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
             return template.load(this.commentTemplate);

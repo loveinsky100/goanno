@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.leo.goanno.generate.Generator;
 import org.leo.goanno.model.GenerateInfo;
+import org.leo.goanno.setting.SettingConstants;
 import org.leo.goanno.template.ParamTemplate;
 import org.leo.goanno.template.constants.Templates;
 import org.leo.goanno.utils.FuncUtils;
@@ -29,7 +30,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
      */
     @Override
     public String generate(GenerateInfo generateInfo) {
-        String code = generateInfo.getCode();
+        String code = generateInfo.getFunc();
         String funcLine = code;
         // func (receiver) method_name(params) (returns)
         if (StringUtils.isBlank(funcLine)) {
@@ -146,7 +147,7 @@ public class DefaultFuncCommentGeneratorImpl implements Generator {
             template.addParams(Templates.RETS, ret);
         }
 
-        String commentTemplate = Templates.TEMPLATE;
+        String commentTemplate = SettingConstants.TEMPLATE;
         if (!StringUtils.isEmpty(this.commentTemplate)) {
             commentTemplate = this.commentTemplate;
         }

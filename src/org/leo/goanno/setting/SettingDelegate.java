@@ -1,22 +1,21 @@
 package org.leo.goanno.setting;
 
+import java.util.List;
+
 public interface SettingDelegate {
     /**
-     * query setting
+     *
+     * @param settingComponent
+     * @param settingKey
      * @return
      */
-    String loadSetting();
+    Object loadSetting(SettingComponent settingComponent, String settingKey);
 
     /**
-     * query loadSelect
-     * @return
+     *
+     * @param settingComponent
+     * @param settingKey
+     * @param value
      */
-    boolean loadSelect();
-
-    /**
-     * setting
-     * @param setting
-     * @param select
-     */
-    void submitSetting(String setting, boolean select);
+    void submitSetting(SettingComponent settingComponent, String settingKey, Object value);
 }
