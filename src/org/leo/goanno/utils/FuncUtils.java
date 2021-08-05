@@ -55,15 +55,15 @@ public class FuncUtils {
                 lineCodeInfo = lineCodeInfo.replace("type", "");
                 lineCodeInfo = lineCodeInfo.replaceAll(" ", "");
 
-                if (lineCodeInfo.endsWith("interface{")) {
-                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface{".length());
+                if (lineCodeInfo.endsWith("interface") || lineCodeInfo.endsWith("interface{")) {
+                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - (lineCodeInfo.endsWith("interface") ? "interface".length() : "interface{".length()));
                     GenerateInfo generateInfo = new GenerateInfo();
                     generateInfo.setGenerateEnums(GenerateEnums.INTERFACE);
                     generateInfo.setInterfaceName(lineCodeInfo);
 
                     return generateInfo;
-                } else if (lineCodeInfo.endsWith("struct{")) {
-                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "struct{".length());
+                } else if (lineCodeInfo.endsWith("struct") || lineCodeInfo.endsWith("struct{")) {
+                    lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - (lineCodeInfo.endsWith("struct") ? "struct".length() : "struct{".length()));
                     GenerateInfo generateInfo = new GenerateInfo();
                     generateInfo.setGenerateEnums(GenerateEnums.STRUCT);
                     generateInfo.setStructName(lineCodeInfo);
@@ -103,12 +103,11 @@ public class FuncUtils {
                     interfaceFunc = interfaceFunc.trim();
 
                     String[] interfaceFuncs = interfaceFunc.split(" ");
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int index = 0; index < interfaceFuncs.length - 1; index ++) {
-                        stringBuilder.append(interfaceFuncs[index]).append(" ");
+                    if (null == interfaceFuncs || interfaceFuncs.length <= 1) {
+                        generateInfo.setStructFieldName(interfaceFunc.trim());
+                    } else {
+                        generateInfo.setStructFieldName(interfaceFuncs[0].trim());
                     }
-
-                    generateInfo.setStructFieldName(stringBuilder.toString().trim());
 
                     return generateInfo;
                 }

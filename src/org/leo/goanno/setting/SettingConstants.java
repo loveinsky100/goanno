@@ -66,10 +66,8 @@ public interface SettingConstants {
     String SETTING_KEY_STRUCT_FIELD = "ganno.setting.config.struct.field";
 
     // default template code
-    String PACKAGE_TEMPLATE = "//\n" +
-            "//  ${package_name}\n" +
-            "//  @Description: ${todo}\n" +
-            "//";
+    String PACKAGE_TEMPLATE = "// Package ${package_name}\n" +
+            "// @Description: ${todo}";
 
     // package
     String SETTING_KEY_PACKAGE = "ganno.setting.config.package";

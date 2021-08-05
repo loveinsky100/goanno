@@ -14,7 +14,10 @@ public class GeneratorUtils {
     public static String generate(GenerateInfo generateInfo, int left, int firstLineLeft) {
         // read template
         String template = readTemplate(generateInfo);
+        return generateWithTemplate(generateInfo, left, firstLineLeft, template);
+    }
 
+    public static String generateWithTemplate(GenerateInfo generateInfo, int left, int firstLineLeft, String template) {
         switch (generateInfo.getGenerateEnums()) {
             case STRUCT:
             case PACKAGE:

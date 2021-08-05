@@ -1,11 +1,9 @@
 package org.leo.goanno.test;
 
 import org.apache.commons.lang.StringUtils;
-import org.leo.goanno.generate.Generator;
-import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
-import org.leo.goanno.template.impl.GoMethodTemplateImpl;
 import org.leo.goanno.utils.CommentUtils;
 import org.leo.goanno.utils.FuncUtils;
+import org.leo.goanno.utils.GeneratorUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -31,8 +29,8 @@ public class TestCommon {
 
     protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo, boolean covert) {
         // Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
-        Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(0, 0), template);
-        String code = generator.generate(FuncUtils.findGenerateInfo(goFuncInfo.func, 0));
+
+        String code = GeneratorUtils.generateWithTemplate(FuncUtils.findGenerateInfo(goFuncInfo.func, goFuncInfo.func.startsWith("type GoannoTest") ? 1 : 0), 0, 0, template);
         if (covert) {
             String []comments = StringUtils.split(goFuncInfo.comment, "\n");
             List<String> commentList = new ArrayList<>();
@@ -85,7 +83,7 @@ public class TestCommon {
                 continue;
             }
 
-            if (line.startsWith("func") || line.startsWith("// start_interface_method")) {
+            if (line.startsWith("func") || line.startsWith("// start_interface_method") || line.startsWith("// start_generate_code") || line.startsWith("// start_struct_field_code")) {
                 inComment = false;
             }
 
@@ -95,7 +93,7 @@ public class TestCommon {
                 functionBuilder.append(line).append("\n");
             }
 
-            if (line.startsWith("}") || line.startsWith("// end_interface_method")) {
+            if (line.startsWith("}") || line.startsWith("// end_interface_method") || line.startsWith("// end_generate_code") || line.startsWith("// end_struct_field_code")) {
                 GoFuncInfo goFuncInfo = new GoFuncInfo();
                 String func = functionBuilder.toString();
                 String comment = commentBuilder.toString();
@@ -103,6 +101,12 @@ public class TestCommon {
                 // remove last break line
                 if (comment.endsWith("\n")) {
                     comment = comment.substring(0, comment.length() - 1);
+                }
+
+                if (line.startsWith("// end_interface_method")) {
+                    func = String.format("type GoannoTest interface {\n %s \n}", func);
+                } else if (line.startsWith("// end_struct_field_code")) {
+                    func = String.format("type GoannoTest struct {\n %s \n}", func);
                 }
 
                 goFuncInfo.func = func;
