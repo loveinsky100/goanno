@@ -59,14 +59,14 @@ public class FuncUtils {
                     lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "interface{".length());
                     GenerateInfo generateInfo = new GenerateInfo();
                     generateInfo.setGenerateEnums(GenerateEnums.INTERFACE);
-                    generateInfo.setPackageName(lineCodeInfo);
+                    generateInfo.setInterfaceName(lineCodeInfo);
 
                     return generateInfo;
                 } else if (lineCodeInfo.endsWith("struct{")) {
                     lineCodeInfo = lineCodeInfo.substring(0, lineCodeInfo.length() - "struct{".length());
                     GenerateInfo generateInfo = new GenerateInfo();
                     generateInfo.setGenerateEnums(GenerateEnums.STRUCT);
-                    generateInfo.setPackageName(lineCodeInfo);
+                    generateInfo.setStructName(lineCodeInfo);
 
                     return generateInfo;
                 }
