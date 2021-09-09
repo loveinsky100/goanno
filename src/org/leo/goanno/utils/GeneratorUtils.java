@@ -5,19 +5,20 @@ import org.leo.goanno.generate.Generator;
 import org.leo.goanno.generate.impl.FuncCommentGeneratorV2Impl;
 import org.leo.goanno.generate.impl.ParamCommentGeneratorImpl;
 import org.leo.goanno.model.GenerateInfo;
+import org.leo.goanno.model.GenerateResult;
 import org.leo.goanno.setting.SettingConfig;
 import org.leo.goanno.setting.SettingConstants;
 import org.leo.goanno.template.impl.DefaultTemplateImpl;
 import org.leo.goanno.template.impl.GoMethodTemplateImpl;
 
 public class GeneratorUtils {
-    public static String generate(GenerateInfo generateInfo, int left, int firstLineLeft) {
+    public static GenerateResult generate(GenerateInfo generateInfo, int left, int firstLineLeft) {
         // read template
         String template = readTemplate(generateInfo);
         return generateWithTemplate(generateInfo, left, firstLineLeft, template);
     }
 
-    public static String generateWithTemplate(GenerateInfo generateInfo, int left, int firstLineLeft, String template) {
+    public static GenerateResult generateWithTemplate(GenerateInfo generateInfo, int left, int firstLineLeft, String template) {
         switch (generateInfo.getGenerateEnums()) {
             case STRUCT:
             case PACKAGE:
@@ -25,11 +26,11 @@ public class GeneratorUtils {
             case STRUCT_FIELD:
             case NONE: {
                 Generator generator = new ParamCommentGeneratorImpl(new DefaultTemplateImpl(left, firstLineLeft), template);
-                return generator.generate(generateInfo);
+                return generator.generateResult(generateInfo);
             }
             default:{
                 Generator generator = new FuncCommentGeneratorV2Impl(new GoMethodTemplateImpl(left, firstLineLeft), template);
-                return generator.generate(generateInfo);
+                return generator.generateResult(generateInfo);
             }
         }
     }

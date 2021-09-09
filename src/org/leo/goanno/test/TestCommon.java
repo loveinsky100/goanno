@@ -1,6 +1,7 @@
 package org.leo.goanno.test;
 
 import org.apache.commons.lang.StringUtils;
+import org.leo.goanno.model.GenerateResult;
 import org.leo.goanno.utils.CommentUtils;
 import org.leo.goanno.utils.FuncUtils;
 import org.leo.goanno.utils.GeneratorUtils;
@@ -29,8 +30,8 @@ public class TestCommon {
 
     protected static void assertGenerateCode(String template, GoFuncInfo goFuncInfo, boolean covert) {
         // Generator generator = new DefaultFuncCommentGeneratorImpl(new DefaultTemplateImpl(0, 0), template);
-
-        String code = GeneratorUtils.generateWithTemplate(FuncUtils.findGenerateInfo(goFuncInfo.func, goFuncInfo.func.startsWith("type GoannoTest") ? 1 : 0), 0, 0, template);
+        GenerateResult result = GeneratorUtils.generateWithTemplate(FuncUtils.findGenerateInfo(goFuncInfo.func, goFuncInfo.func.startsWith("type GoannoTest") ? 1 : 0), 0, 0, template);
+        String code = null != result ? result.getResult() : "";
         if (covert) {
             String []comments = StringUtils.split(goFuncInfo.comment, "\n");
             List<String> commentList = new ArrayList<>();

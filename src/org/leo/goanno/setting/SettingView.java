@@ -74,7 +74,7 @@ public class SettingView {
 
             TextArea settingTextArea = new TextArea();
             settingTextArea.setBounds(0, 0, 400, 200);
-            settingTextArea.setBackground(Color.BLACK);
+            settingTextArea.setBackground(Color.gray);
             settingTextArea.setText(config.getValue());
 
             settingTextArea.addTextListener((e) -> {

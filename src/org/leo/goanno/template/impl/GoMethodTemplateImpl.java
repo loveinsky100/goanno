@@ -156,7 +156,7 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
         switch (arg) {
             case Templates.NOTE: // TODO: user customer note
             case Templates.COMMENT: {
-                return "";
+                return Templates.COMMENT;
             }
             case Templates.DATE: {
                 return DateFormatUtils.format(method.getGenerateDate(), "yyyy-MM-dd HH:mm:ss");

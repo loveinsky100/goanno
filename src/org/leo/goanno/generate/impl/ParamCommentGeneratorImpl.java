@@ -24,7 +24,7 @@ public class ParamCommentGeneratorImpl implements Generator {
      */
     @Override
     public String generate(GenerateInfo generateInfo) {
-        template.addParams(Templates.COMMENT, "");
+        template.addParams(Templates.COMMENT, Templates.COMMENT);
         template.addParams(Templates.DATE, DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 
         switch (generateInfo.getGenerateEnums()) {

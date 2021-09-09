@@ -8,6 +8,7 @@ import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.*;
 import com.intellij.openapi.project.Project;
 import org.apache.commons.lang.StringUtils;
+import org.leo.goanno.model.GenerateResult;
 import org.leo.goanno.utils.GeneratorUtils;
 import org.leo.goanno.model.GenerateInfo;
 import org.leo.goanno.setting.SettingConstants;
@@ -54,7 +55,9 @@ public class GoAnnoAction extends AnAction {
         GenerateInfo generateInfo = FuncUtils.findGenerateInfo(code, line);
         int blankLength = FuncUtils.firstBlankLength(generateInfo.getFunc());
 
-        String template = GeneratorUtils.generate(generateInfo, blankLength, Math.max(0, blankLength - logicalPosition.column));
+        GenerateResult result = GeneratorUtils.generate(generateInfo, blankLength, Math.max(0, blankLength - logicalPosition.column));
+        String template = null != result ? result.getResult() : "";
+        int todoIndex = null != result ? result.getTodoIndex() : 0;
         if (StringUtils.isBlank(template)) {
             return;
         }
@@ -71,12 +74,16 @@ public class GoAnnoAction extends AnAction {
             WriteCommandAction.runWriteCommandAction(project, () -> {
                 document.insertString(end, current);
                 document.deleteString(start, end);
+                caretModel.moveToOffset(caretModel.getOffset() + todoIndex);
             });
 
         } else {
             String current = template;
             int offset = document.getLineEndOffset(line);
-            WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, current));
+            WriteCommandAction.runWriteCommandAction(project, () -> {
+                document.insertString(offset, current);
+                caretModel.moveToOffset(caretModel.getOffset() + todoIndex);
+            });
         }
     }
 }
