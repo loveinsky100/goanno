@@ -63,4 +63,7 @@ public interface Templates {
 
     // name of struct field
     String STRUCT_FIELD_NAME = "${struct_field_name}";
+
+    // break line
+    String BREAK_LINE = "${break_line}";
 }

@@ -34,7 +34,8 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             Templates.RET_NAME_TYPE,
             Templates.NOTE,
             Templates.INTERFACE_NAME,
-            Templates.PACKAGE_NAME
+            Templates.PACKAGE_NAME,
+            Templates.BREAK_LINE
     };
 
     public GoMethodTemplateImpl(int left, int firstLineLeft) {
@@ -80,7 +81,8 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
                         codeGenerator.append(FuncUtils.blank(left));
                     }
 
-                    codeGenerator.append(codes.get(index));
+                    String param = codes.get(index);
+                    codeGenerator.append(param);
                     codeGenerator.append("\n");
                 }
             } else if (!FuncUtils.containsAnyArgs(templateLine, TEMPLATE_DEFINES)) {
@@ -132,7 +134,7 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
         for (GoType type : types) {
             String code = template;
             for (String arg : args) {
-                code = code.replace(arg, calculateArgValue(type, method, arg));
+                code = code.replace(arg, calculateArgValue(type, method, arg, template));
             }
 
             generates.add(code);
@@ -145,14 +147,14 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
         List<String> generates = new ArrayList<>();
         String code = template;
         for (String arg : args) {
-            code = code.replace(arg, calculateArgValue(null, method, arg));
+            code = code.replace(arg, calculateArgValue(null, method, arg, template));
         }
 
         generates.add(code);
         return generates;
     }
 
-    private String calculateArgValue(GoType type, GoMethod method, String arg) {
+    private String calculateArgValue(GoType type, GoMethod method, String arg, String template) {
         switch (arg) {
             case Templates.NOTE: // TODO: user customer note
             case Templates.COMMENT: {
@@ -219,6 +221,24 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
             case Templates.PACKAGE_NAME:
                 String packageName = method.getPackageName();
                 return packageName == null ? "" : packageName;
+            case Templates.BREAK_LINE:
+                // break line
+                if (template.startsWith("//")) {
+                    return "\n//";
+                }
+
+                if (template.startsWith("*")) {
+                    return "\n*";
+                }
+
+                if (template.startsWith(" *")) {
+                    return "\n *";
+                }
+
+                if (template.startsWith("/*")) {
+                    return "\n *";
+                }
+                return "";
             default:{
                 return "__Not Support__";
             }
