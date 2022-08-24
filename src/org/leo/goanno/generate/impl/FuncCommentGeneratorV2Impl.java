@@ -177,6 +177,11 @@ public class FuncCommentGeneratorV2Impl implements Generator {
 
         List<GoType> unRecognizedGoTypes = new ArrayList<>();
         for (GoType goType : types) {
+            // https://github.com/loveinsky100/goanno/issues/40
+            if (null == goType) {
+                continue;
+            }
+
             if (StringUtils.isEmpty(goType.getName())) {
                 unRecognizedGoTypes.add(goType);
                 continue;

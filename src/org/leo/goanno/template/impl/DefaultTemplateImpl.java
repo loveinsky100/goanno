@@ -48,30 +48,25 @@ public class DefaultTemplateImpl implements ParamTemplate {
 
         String []templateLines = template.split("\n");
         Map<String, List<String>> templateLine2CodesMap = new HashMap<>();
-        for (Map.Entry<String, List<String>> entry : params.entrySet()) {
-            List<String> values = entry.getValue();
-            if (null == values || values.isEmpty()) {
-                continue;
-            }
+        for (String templateLine : templateLines) {
+            String currentTemplateLine = templateLine;
+            List<String> generateCodes = new ArrayList<>();
+            String generateCode = templateLine;
+            for (Map.Entry<String, List<String>> entry : params.entrySet()) {
+                List<String> values = entry.getValue();
+                if (null == values || values.isEmpty()) {
+                    continue;
+                }
 
-            String currentTemplateLine = null;
-            for (String templateLine : templateLines) {
-                if (templateLine.contains(entry.getKey())) {
-                    currentTemplateLine = templateLine;
-                    break;
+                if (!templateLine.contains(entry.getKey())) {
+                    continue;
+                }
+
+                for (String value : values) {
+                    generateCode = generateCode.replace(entry.getKey(), value);
                 }
             }
-
-            if (null == currentTemplateLine || currentTemplateLine.length() == 0) {
-                continue;
-            }
-
-            List<String> generateCodes = new ArrayList<>();
-            for (String value : values) {
-                String generateCode = currentTemplateLine.replace(entry.getKey(), value);
-                generateCodes.add(generateCode);
-            }
-
+            generateCodes.add(generateCode);
             templateLine2CodesMap.put(currentTemplateLine, generateCodes);
         }
 
