@@ -84,7 +84,7 @@ public class SettingComponent extends DialogWrapper implements SettingViewDelega
         settingExportConfig.setSettingConfigs(settingConfigs);
 
         String config = gson.toJson(settingExportConfig);
-        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("Goanno location", "Please choose a location for your config");
+        FileSaverDescriptor fileSaverDescriptor = new FileSaverDescriptor("Goanno", "Please choose a location");
         String homePath = System.getProperty("user.home");
         File parentPath = homePath.length() == 0 ? new File("/") : new File(homePath);
 
