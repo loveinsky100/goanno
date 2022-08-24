@@ -1,6 +1,6 @@
 // Template Declare Start
 
-// Package ${package_name} ${todo}
+// Package ${package_name}${todo}
 
 // Template Declare End
 
