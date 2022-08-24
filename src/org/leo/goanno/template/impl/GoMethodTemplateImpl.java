@@ -132,7 +132,13 @@ public class GoMethodTemplateImpl implements GoMethodTemplate {
         for (GoType type : types) {
             String code = template;
             for (String arg : args) {
-                code = code.replace(arg, calculateArgValue(type, method, arg));
+                String value = calculateArgValue(type, method, arg);
+                // https://github.com/loveinsky100/goanno/issues/27
+                if (null == value) {
+                    continue;
+                }
+
+                code = code.replace(arg, value);
             }
 
             generates.add(code);
