@@ -13,6 +13,15 @@ This plugin provides auto generate comments for golang
 + 1.Select "Tools - Goanno Setting"  
 + 2.Edit template
 
+# Change log
+ - V2.1.0
+    - support edit custom template
+ - V3.0.0
+    - support different scene template
+    - support old comment convert
+ - V3.1.0 at 2022-08-24
+    - support template export/import
+
 # Template
 
 | Args | Desc |
