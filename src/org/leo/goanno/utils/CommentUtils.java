@@ -63,6 +63,9 @@ public class CommentUtils {
             }
 
             for (String last : lasts) {
+                if (last.startsWith("\t")) {
+                    last = last.replaceFirst(last, "\t");
+                }
                 if (last.startsWith(currentLine)) {
                     matchLine = last;
                     break;

@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>org.leo.goanno</id>
   <name>Goanno</name>
-  <version>3.1.0</version>
+  <version>3.1.1</version>
   <vendor email="xuyangze@gmail.com" url="https://github.com/loveinsky100/goanno/">@Goanno</vendor>
 
   <description><![CDATA[
