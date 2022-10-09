@@ -37,6 +37,11 @@ public class CommentUtils {
                 break;
             }
 
+            if (lineCode.startsWith("\t")) {
+                // user 4 blank instant
+                lineCode = lineCode.replace("\t", "    ");
+            }
+
             comments.add(lineCode);
         }
 
@@ -63,9 +68,6 @@ public class CommentUtils {
             }
 
             for (String last : lasts) {
-                if (last.startsWith("\t")) {
-                    last = last.replaceFirst(last, "\t");
-                }
                 if (last.startsWith(currentLine)) {
                     matchLine = last;
                     break;
