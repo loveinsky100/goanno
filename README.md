@@ -7,7 +7,7 @@ This plugin provides auto generate comments for golang
 2.download release jar(goland install from disk) [goanno.jar](https://github.com/loveinsky100/goanno/releases)
 
 # How to use
-1.control + commond + /  (for windows: control + alt + /)  
+1.control + command + /  (for windows: control + alt + /)  
 2.Right click -> Generate -> Goanno  
 3.Edit comment template  
 + 1.Select "Tools - Goanno Setting"  
